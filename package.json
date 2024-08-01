@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --fix",
+    "lint": "prettier --write --cache --check src && eslint . --fix && stylelint src/**/*.css --fix",
     "prepare": "husky"
   },
   "dependencies": {
@@ -31,6 +31,11 @@
     "globals": "15.9.0",
     "husky": "9.1.4",
     "prettier": "3.3.3",
+    "stylelint": "16.8.1",
+    "stylelint-config-prettier": "9.0.5",
+    "stylelint-config-recess-order": "5.0.1",
+    "stylelint-config-standard": "36.0.1",
+    "stylelint-order": "6.0.4",
     "typescript": "5.5.4",
     "typescript-eslint": "8.0.0"
   },
