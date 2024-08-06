@@ -12,3 +12,12 @@ jobs:
         uses: ./.github/composite-actions/setup-ci
       - name: Lint
         run: pnpm lint
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup
+        uses: ./.github/composite-actions/setup-ci
+      - name: Lint
+        run: pnpm test

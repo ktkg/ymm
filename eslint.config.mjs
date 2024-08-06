@@ -5,6 +5,7 @@ import pluginJs from "@eslint/js";
 import pluginNext from "@next/eslint-plugin-next";
 import pluginReact from "eslint-plugin-react";
 import pluginReactHooks from "eslint-plugin-react-hooks";
+import pluginJest from "eslint-plugin-jest";
 import tseslint from "typescript-eslint";
 
 export default [
@@ -47,5 +48,9 @@ export default [
         typescript: {},
       },
     },
+  },
+  {
+    files: ["**/*.test.ts", "**/*.test.tsx"],
+    ...pluginJest.configs["flat/recommended"],
   },
 ];
