@@ -37,8 +37,15 @@ export default [
       ...pluginNext.configs["core-web-vitals"].rules,
       ...pluginImport.configs.recommended.rules,
       "react/self-closing-comp": "error",
+      "react/jsx-handler-names": "error",
       "import/order": ["error", { "newlines-between": "always" }],
       "import/newline-after-import": "error",
+      "arrow-body-style": ["error", "as-needed"],
+    },
+    settings: {
+      "import/resolver": {
+        typescript: {},
+      },
     },
   },
 ];
