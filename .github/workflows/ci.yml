@@ -12,4 +12,3 @@ jobs:
         uses: ./.github/composite-actions/setup-ci
       - name: Lint
         run: pnpm lint
-        shell: bash
