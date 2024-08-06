@@ -1,0 +1,13 @@
+name: ci
+on:
+  - push
+  - pull_request
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup
+        uses: ./.github/composite-actions/setup-ci
+      - name: Lint
+        run: pnpm lint
