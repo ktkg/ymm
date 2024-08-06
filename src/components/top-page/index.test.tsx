@@ -29,7 +29,7 @@ describe("TopPage", () => {
             prefName: "秋田県",
           },
         ]}
-      />
+      />,
     );
   });
 
