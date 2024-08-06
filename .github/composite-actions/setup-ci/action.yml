@@ -3,8 +3,6 @@ name: "Setup CI"
 runs:
   using: composite
   steps:
-    - name: Checkout
-      uses: actions/checkout@v4
     - name: Install pnpm
       uses: pnpm/action-setup@v4
     - name: Setup Node.js
