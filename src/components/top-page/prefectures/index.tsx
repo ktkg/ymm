@@ -19,11 +19,12 @@ export const Prefectures = ({
       {prefectures.map(({ prefCode, prefName }) => (
         <li className={styles.item} key={prefCode}>
           <input
+            id={prefName}
             type="checkbox"
             checked={selectedPrefCodes.includes(prefCode)}
             onChange={() => handleClickCheckbox(prefCode)}
           />
-          <label>{prefName}</label>
+          <label htmlFor={prefName}>{prefName}</label>
         </li>
       ))}
     </ul>
