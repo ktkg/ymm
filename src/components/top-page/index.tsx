@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { Prefectures } from "./prefectures";
+import { Graph } from "./graph";
 
 import { PrefectureModel } from "@/model/prefecture.model";
 
@@ -30,6 +31,7 @@ export const TopPage = ({ prefectures }: Props) => {
         selectedPrefCodes={selectedPrefCodes}
         onClickCheckbox={handleSelectPrefecture}
       />
+      <Graph prefectures={prefectures} selectedPrefCodes={selectedPrefCodes} />
     </main>
   );
 };

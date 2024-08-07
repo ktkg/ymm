@@ -39,6 +39,7 @@ export default [
       ...pluginImport.configs.recommended.rules,
       "react/self-closing-comp": "error",
       "react/jsx-handler-names": "error",
+      "react/jsx-curly-brace-presence": "error",
       "import/order": ["error", { "newlines-between": "always" }],
       "import/newline-after-import": "error",
       "arrow-body-style": ["error", "as-needed"],
