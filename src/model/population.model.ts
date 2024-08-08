@@ -67,7 +67,9 @@ export const createPopulationList = (
       data: Object.fromEntries(
         populationType.map(({ id, label }) => [
           id,
-          data.find((d) => d.label === label)!.data,
+          data
+            .find((d) => d.label === label)!
+            .data.map(({ year, value }) => ({ year, value: value / 10000 })),
         ]),
       ) as PopulationModel["data"],
     };
