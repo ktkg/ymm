@@ -36,7 +36,7 @@ export const Graph = ({ prefectures, selectedPrefCodes }: Props) => {
   const colors = palette("mpn65", populationList.length).map((color: string) => `#${color}`);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} data-testid="graph-wrapper">
       {renderTypeSelect()}
 
       <ResponsiveContainer width="90%" height={isMobile ? height * 0.5 : height - 100}>
