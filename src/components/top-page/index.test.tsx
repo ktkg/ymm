@@ -5,6 +5,11 @@ import { TopPage } from ".";
 
 describe("TopPage", () => {
   beforeEach(() => {
+    window.ResizeObserver = jest.fn().mockImplementation(() => ({
+      disconnect: jest.fn(),
+      observe: jest.fn(),
+    }));
+
     render(
       <TopPage
         prefectures={[
@@ -29,7 +34,7 @@ describe("TopPage", () => {
             prefName: "秋田県",
           },
         ]}
-      />,
+      />
     );
   });
 

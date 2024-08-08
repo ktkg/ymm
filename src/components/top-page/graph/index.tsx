@@ -3,13 +3,15 @@ import {
   Legend,
   Line,
   LineChart,
+  ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import palette from "google-palette";
 
+import styles from "./index.module.css";
 import { usePopulation } from "./index.hook";
 
 import {
@@ -18,6 +20,7 @@ import {
   PopulationType,
 } from "@/model/population.model";
 import { PrefectureModel } from "@/model/prefecture.model";
+import { useViewHeight } from "@/utilities/hooks/use-view-height";
 
 type Props = {
   prefectures: PrefectureModel[];
@@ -26,15 +29,10 @@ type Props = {
 
 export const Graph = ({ prefectures, selectedPrefCodes }: Props) => {
   const { data, error } = usePopulation(selectedPrefCodes);
+  const viewHeight = useViewHeight();
 
   const [selectedPopulationType, setSelectedPopulationType] =
     useState<PopulationType>("total");
-
-  const handleChangePopulationType = (
-    event: ChangeEvent<HTMLSelectElement>,
-  ) => {
-    setSelectedPopulationType(event.target.value as PopulationType);
-  };
 
   if (error) throw error;
 
@@ -45,45 +43,80 @@ export const Graph = ({ prefectures, selectedPrefCodes }: Props) => {
   );
 
   return (
-    <div>
-      <label htmlFor="population-type">種別</label>
-      <select
-        id="population-type"
-        value={selectedPopulationType}
-        onChange={handleChangePopulationType}
-      >
-        {populationType.map(({ id, label }) => (
-          <option key={id} value={id}>
-            {label}
-          </option>
-        ))}
-      </select>
-      <LineChart width={730} height={500}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis
-          dataKey="year"
-          allowDuplicatedCategory={false}
-          label={{ value: "年", position: "insideBottomRight", dy: 10 }}
-        />
-        <YAxis
-          label={{ value: "人", position: "insideLeft", angle: -90, dx: -10 }}
-        />
-        <Tooltip />
-        <Legend />
-        {populationList.map(({ prefCode, data }, index) => (
-          <Line
-            key={prefCode}
-            data={data[selectedPopulationType]}
-            type="monotone"
-            dataKey="value"
-            name={
-              prefectures.find((prefecture) => prefecture.prefCode === prefCode)
-                ?.prefName
-            }
-            stroke={colors[index]}
+    <div className={styles.wrapper}>
+      <div className={styles.type}>
+        <label htmlFor="population-type">種別</label>
+        <select
+          id="population-type"
+          value={selectedPopulationType}
+          onChange={(event) =>
+            setSelectedPopulationType(event.target.value as PopulationType)
+          }
+        >
+          {populationType.map(({ id, label }) => (
+            <option key={id} value={id}>
+              {label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <ResponsiveContainer width="100%" height={viewHeight - 100}>
+        <LineChart width={730} height={500}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis
+            height={50}
+            dataKey="year"
+            allowDuplicatedCategory={false}
+            label={{ value: "（年）", position: "insideBottomRight" }}
           />
-        ))}
-      </LineChart>
+          <YAxis
+            label={{
+              value: "（万人）",
+              position: "insideTopLeft",
+              dy: 20,
+              dx: -10,
+            }}
+          />
+          <Tooltip formatter={(value) => value.toLocaleString("ja-jp")} />
+          <Legend />
+          {populationList.map(({ prefCode, data, boundaryYear }, index) => {
+            const prefName = prefectures.find(
+              (prefecture) => prefecture.prefCode === prefCode,
+            )?.prefName;
+
+            return (
+              <>
+                <Line
+                  key={`${prefCode}-before`}
+                  data={data[selectedPopulationType].filter(
+                    (d) => d.year <= boundaryYear,
+                  )}
+                  type="monotone"
+                  dataKey="value"
+                  name={prefName}
+                  stroke={colors[index]}
+                  isAnimationActive={false}
+                />
+                <Line
+                  key={`${prefCode}-after`}
+                  data={data[selectedPopulationType].filter(
+                    (d) => d.year >= boundaryYear,
+                  )}
+                  type="monotone"
+                  dataKey="value"
+                  name={prefName}
+                  dot={false}
+                  stroke={colors[index]}
+                  strokeDasharray="4 4"
+                  legendType="none"
+                  isAnimationActive={false}
+                />
+              </>
+            );
+          })}
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
 };
