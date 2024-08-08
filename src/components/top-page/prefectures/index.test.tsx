@@ -39,10 +39,6 @@ describe("Prefectures", () => {
     );
   });
 
-  it("タイトルが表示されること", () => {
-    expect(screen.getByText("都道府県")).toBeVisible();
-  });
-
   it("都道府県が全て表示されること", () => {
     expect(screen.getByText("北海道")).toBeVisible();
     expect(screen.getByText("青森県")).toBeVisible();

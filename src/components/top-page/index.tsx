@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import styles from "./index.module.css";
 import { Prefectures } from "./prefectures";
 import { Graph } from "./graph";
 
@@ -25,12 +26,13 @@ export const TopPage = ({ prefectures }: Props) => {
   };
 
   return (
-    <main>
+    <main className={styles.wrapper}>
       <Prefectures
         prefectures={prefectures}
         selectedPrefCodes={selectedPrefCodes}
         onClickCheckbox={handleSelectPrefecture}
       />
+
       <Graph prefectures={prefectures} selectedPrefCodes={selectedPrefCodes} />
     </main>
   );
