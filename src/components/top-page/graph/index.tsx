@@ -10,13 +10,13 @@ import {
 } from "recharts";
 import { useState } from "react";
 import palette from "google-palette";
+import { useMediaQuery, useWindowSize } from "usehooks-ts";
 
 import styles from "./index.module.css";
 import { usePopulation } from "./index.hook";
 
 import { createPopulationList, populationType, PopulationType } from "@/model/population.model";
 import { PrefectureModel } from "@/model/prefecture.model";
-import { useViewHeight } from "@/utilities/hooks/use-view-height";
 
 type Props = {
   prefectures: PrefectureModel[];
@@ -25,8 +25,8 @@ type Props = {
 
 export const Graph = ({ prefectures, selectedPrefCodes }: Props) => {
   const { data, error } = usePopulation(selectedPrefCodes);
-  const viewHeight = useViewHeight();
-
+  const { height } = useWindowSize();
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const [selectedPopulationType, setSelectedPopulationType] = useState<PopulationType>("total");
 
   if (error) throw error;
@@ -52,7 +52,7 @@ export const Graph = ({ prefectures, selectedPrefCodes }: Props) => {
         </select>
       </div>
 
-      <ResponsiveContainer width="100%" height={viewHeight - 100}>
+      <ResponsiveContainer width="90%" height={isMobile ? height * 0.5 : height - 100}>
         <LineChart width={730} height={500}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
