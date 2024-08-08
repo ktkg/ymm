@@ -11,9 +11,7 @@ type Props = {
 };
 
 export const TopPage = ({ prefectures }: Props) => {
-  const [selectedPrefCodes, setSelectedPrefCodes] = useState<
-    PrefectureModel["prefCode"][]
-  >([]);
+  const [selectedPrefCodes, setSelectedPrefCodes] = useState<PrefectureModel["prefCode"][]>([]);
 
   const handleSelectPrefecture = (target: PrefectureModel["prefCode"]) => {
     setSelectedPrefCodes((prev) => {

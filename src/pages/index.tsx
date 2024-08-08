@@ -3,18 +3,13 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
 import { TopPage } from "@/components/top-page";
 import { apiEndpoint } from "@/utilities/constants";
-import {
-  PrefectureModel,
-  prefecturesResponseSchema,
-} from "@/model/prefecture.model";
+import { PrefectureModel, prefecturesResponseSchema } from "@/model/prefecture.model";
 
 type Repo = {
   prefectures: PrefectureModel[];
 };
 
-export default function Page({
-  repo,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Page({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
       <Head>
@@ -30,8 +25,7 @@ export default function Page({
 }
 
 export const getServerSideProps = (async () => {
-  if (!process.env.RESAS_API_KEY)
-    throw new Error("RESAS API KEY is not defined");
+  if (!process.env.RESAS_API_KEY) throw new Error("RESAS API KEY is not defined");
 
   const res = await fetch(`${apiEndpoint}/v1/prefectures`, {
     headers: {

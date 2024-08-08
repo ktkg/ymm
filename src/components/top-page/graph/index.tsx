@@ -15,11 +15,7 @@ import { useMediaQuery, useWindowSize } from "usehooks-ts";
 import styles from "./index.module.css";
 import { usePopulation } from "./index.hook";
 
-import {
-  createPopulationList,
-  populationType,
-  PopulationType,
-} from "@/model/population.model";
+import { createPopulationList, populationType, PopulationType } from "@/model/population.model";
 import { PrefectureModel } from "@/model/prefecture.model";
 
 type Props = {
@@ -31,16 +27,13 @@ export const Graph = ({ prefectures, selectedPrefCodes }: Props) => {
   const { data, error } = usePopulation(selectedPrefCodes);
   const { height } = useWindowSize();
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const [selectedPopulationType, setSelectedPopulationType] =
-    useState<PopulationType>("total");
+  const [selectedPopulationType, setSelectedPopulationType] = useState<PopulationType>("total");
 
   if (error) throw error;
 
   const populationList = !data ? [] : createPopulationList(data);
 
-  const colors = palette("mpn65", populationList.length).map(
-    (color: string) => `#${color}`,
-  );
+  const colors = palette("mpn65", populationList.length).map((color: string) => `#${color}`);
 
   return (
     <div className={styles.wrapper}>
@@ -49,9 +42,7 @@ export const Graph = ({ prefectures, selectedPrefCodes }: Props) => {
         <select
           id="population-type"
           value={selectedPopulationType}
-          onChange={(event) =>
-            setSelectedPopulationType(event.target.value as PopulationType)
-          }
+          onChange={(event) => setSelectedPopulationType(event.target.value as PopulationType)}
         >
           {populationType.map(({ id, label }) => (
             <option key={id} value={id}>
@@ -61,10 +52,7 @@ export const Graph = ({ prefectures, selectedPrefCodes }: Props) => {
         </select>
       </div>
 
-      <ResponsiveContainer
-        width="90%"
-        height={isMobile ? height * 0.5 : height - 100}
-      >
+      <ResponsiveContainer width="90%" height={isMobile ? height * 0.5 : height - 100}>
         <LineChart width={730} height={500}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
@@ -85,16 +73,14 @@ export const Graph = ({ prefectures, selectedPrefCodes }: Props) => {
           <Legend />
           {populationList.map(({ prefCode, data, boundaryYear }, index) => {
             const prefName = prefectures.find(
-              (prefecture) => prefecture.prefCode === prefCode,
+              (prefecture) => prefecture.prefCode === prefCode
             )?.prefName;
 
             return (
               <>
                 <Line
                   key={`${prefCode}-before`}
-                  data={data[selectedPopulationType].filter(
-                    (d) => d.year <= boundaryYear,
-                  )}
+                  data={data[selectedPopulationType].filter((d) => d.year <= boundaryYear)}
                   type="monotone"
                   dataKey="value"
                   name={prefName}
@@ -103,9 +89,7 @@ export const Graph = ({ prefectures, selectedPrefCodes }: Props) => {
                 />
                 <Line
                   key={`${prefCode}-after`}
-                  data={data[selectedPopulationType].filter(
-                    (d) => d.year >= boundaryYear,
-                  )}
+                  data={data[selectedPopulationType].filter((d) => d.year >= boundaryYear)}
                   type="monotone"
                   dataKey="value"
                   name={prefName}
