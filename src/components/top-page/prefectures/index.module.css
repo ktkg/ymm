@@ -1,3 +1,38 @@
+.wrapper {
+  flex-shrink: 0;
+  width: 120px;
+  height: 100%;
+  padding: 20px 24px;
+  overflow-y: scroll;
+  background-color: ghostwhite;
+}
+
+.list {
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  padding-left: 0;
+}
+
 .item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  height: 40px;
   list-style-type: none;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+}
+
+.checkbox:checked {
+  color: #bea7a7;
+  background-color: #222;
+}
+
+.label {
+  font-size: 16px;
+  text-wrap: nowrap;
 }

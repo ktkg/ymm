@@ -13,18 +13,20 @@ export const Prefectures = ({
   selectedPrefCodes,
   onClickCheckbox: handleClickCheckbox,
 }: Props) => (
-  <div>
-    <h2>都道府県</h2>
-    <ul>
+  <div className={styles.wrapper}>
+    <ul className={styles.list}>
       {prefectures.map(({ prefCode, prefName }) => (
         <li className={styles.item} key={prefCode}>
           <input
+            className={styles.checkbox}
             id={prefName}
             type="checkbox"
             checked={selectedPrefCodes.includes(prefCode)}
             onChange={() => handleClickCheckbox(prefCode)}
           />
-          <label htmlFor={prefName}>{prefName}</label>
+          <label className={styles.label} htmlFor={prefName}>
+            {prefName}
+          </label>
         </li>
       ))}
     </ul>
