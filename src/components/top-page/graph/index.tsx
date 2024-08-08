@@ -8,14 +8,14 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { useState } from "react";
 import palette from "google-palette";
 import { useMediaQuery, useWindowSize } from "usehooks-ts";
 
 import styles from "./index.module.css";
 import { usePopulation } from "./index.hook";
+import { useTypeSelect } from "./type-select/index.hook";
 
-import { createPopulationList, populationType, PopulationType } from "@/model/population.model";
+import { createPopulationList } from "@/model/population.model";
 import { PrefectureModel } from "@/model/prefecture.model";
 
 type Props = {
@@ -25,9 +25,9 @@ type Props = {
 
 export const Graph = ({ prefectures, selectedPrefCodes }: Props) => {
   const { data, error } = usePopulation(selectedPrefCodes);
+  const { selectedPopulationType, render: renderTypeSelect } = useTypeSelect();
   const { height } = useWindowSize();
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const [selectedPopulationType, setSelectedPopulationType] = useState<PopulationType>("total");
 
   if (error) throw error;
 
@@ -37,20 +37,7 @@ export const Graph = ({ prefectures, selectedPrefCodes }: Props) => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.type}>
-        <label htmlFor="population-type">種別</label>
-        <select
-          id="population-type"
-          value={selectedPopulationType}
-          onChange={(event) => setSelectedPopulationType(event.target.value as PopulationType)}
-        >
-          {populationType.map(({ id, label }) => (
-            <option key={id} value={id}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </div>
+      {renderTypeSelect()}
 
       <ResponsiveContainer width="90%" height={isMobile ? height * 0.5 : height - 100}>
         <LineChart width={730} height={500}>
