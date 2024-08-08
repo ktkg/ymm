@@ -35,9 +35,9 @@ export const populationResponseSchema = z.object({
             z.object({
               year: z.number(),
               value: z.number(),
-            }),
+            })
           ),
-        }),
+        })
       ),
     }),
   }),
@@ -56,7 +56,7 @@ type PopulationModel = {
 };
 
 export const createPopulationList = (
-  parsedResponses: z.infer<typeof populationResponseSchema>[],
+  parsedResponses: z.infer<typeof populationResponseSchema>[]
 ): PopulationModel[] =>
   parsedResponses.map((parsedResponse) => {
     const { boundaryYear, data } = parsedResponse.data.result;
@@ -70,7 +70,7 @@ export const createPopulationList = (
           data
             .find((d) => d.label === label)!
             .data.map(({ year, value }) => ({ year, value: value / 10000 })),
-        ]),
+        ])
       ) as PopulationModel["data"],
     };
   });

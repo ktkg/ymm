@@ -35,7 +35,7 @@ describe("Prefectures", () => {
         ]}
         selectedPrefCodes={[2, 3]}
         onClickCheckbox={onClickCheckboxMock}
-      />,
+      />
     );
   });
 

@@ -14,11 +14,7 @@ import palette from "google-palette";
 import styles from "./index.module.css";
 import { usePopulation } from "./index.hook";
 
-import {
-  createPopulationList,
-  populationType,
-  PopulationType,
-} from "@/model/population.model";
+import { createPopulationList, populationType, PopulationType } from "@/model/population.model";
 import { PrefectureModel } from "@/model/prefecture.model";
 import { useViewHeight } from "@/utilities/hooks/use-view-height";
 
@@ -31,16 +27,13 @@ export const Graph = ({ prefectures, selectedPrefCodes }: Props) => {
   const { data, error } = usePopulation(selectedPrefCodes);
   const viewHeight = useViewHeight();
 
-  const [selectedPopulationType, setSelectedPopulationType] =
-    useState<PopulationType>("total");
+  const [selectedPopulationType, setSelectedPopulationType] = useState<PopulationType>("total");
 
   if (error) throw error;
 
   const populationList = !data ? [] : createPopulationList(data);
 
-  const colors = palette("mpn65", populationList.length).map(
-    (color: string) => `#${color}`,
-  );
+  const colors = palette("mpn65", populationList.length).map((color: string) => `#${color}`);
 
   return (
     <div className={styles.wrapper}>
@@ -49,9 +42,7 @@ export const Graph = ({ prefectures, selectedPrefCodes }: Props) => {
         <select
           id="population-type"
           value={selectedPopulationType}
-          onChange={(event) =>
-            setSelectedPopulationType(event.target.value as PopulationType)
-          }
+          onChange={(event) => setSelectedPopulationType(event.target.value as PopulationType)}
         >
           {populationType.map(({ id, label }) => (
             <option key={id} value={id}>
@@ -82,16 +73,14 @@ export const Graph = ({ prefectures, selectedPrefCodes }: Props) => {
           <Legend />
           {populationList.map(({ prefCode, data, boundaryYear }, index) => {
             const prefName = prefectures.find(
-              (prefecture) => prefecture.prefCode === prefCode,
+              (prefecture) => prefecture.prefCode === prefCode
             )?.prefName;
 
             return (
               <>
                 <Line
                   key={`${prefCode}-before`}
-                  data={data[selectedPopulationType].filter(
-                    (d) => d.year <= boundaryYear,
-                  )}
+                  data={data[selectedPopulationType].filter((d) => d.year <= boundaryYear)}
                   type="monotone"
                   dataKey="value"
                   name={prefName}
@@ -100,9 +89,7 @@ export const Graph = ({ prefectures, selectedPrefCodes }: Props) => {
                 />
                 <Line
                   key={`${prefCode}-after`}
-                  data={data[selectedPopulationType].filter(
-                    (d) => d.year >= boundaryYear,
-                  )}
+                  data={data[selectedPopulationType].filter((d) => d.year >= boundaryYear)}
                   type="monotone"
                   dataKey="value"
                   name={prefName}
